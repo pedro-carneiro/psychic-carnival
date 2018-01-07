@@ -26,4 +26,5 @@ namespace ToggleApi
                 await context.Response.WriteAsync("");
             }
         }
+    }
 }
