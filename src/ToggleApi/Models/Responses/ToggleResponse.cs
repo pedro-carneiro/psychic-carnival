@@ -1,6 +1,6 @@
-namespace ToggleApi.Models.Resources
+namespace ToggleApi.Models.Responses
 {
-    public class ToggleResource
+    public class ToggleResponse
     {
         public long Id { get; set; }
         public string Name { get; set; }
