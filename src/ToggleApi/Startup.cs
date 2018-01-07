@@ -6,7 +6,6 @@ namespace ToggleApi
     using ToggleApi.Models.Resources;
     using ToggleApi.Services;
     using ToggleApi.Services.Toggles;
-    using AutoMapper;
 
     public class Startup
     {
@@ -14,7 +13,6 @@ namespace ToggleApi
         {
             services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("ToggleList"));
             services.AddMvc();
-            services.AddAutoMapper();
 
             services.AddScoped(typeof(ICreateService<ToggleResource>), typeof(ToggleCreateService));
             services.AddScoped(typeof(IReadService<ToggleResource>), typeof(ToggleReadService));
