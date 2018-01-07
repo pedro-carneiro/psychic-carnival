@@ -2,21 +2,22 @@ namespace ToggleApi.Controllers
 {
     using System.Collections.Generic;
     using Microsoft.AspNetCore.Mvc;
-    using ToggleApi.Models.Resources;
+    using ToggleApi.Models.Requests;
+    using ToggleApi.Models.Responses;
     using ToggleApi.Services;
 
     [Route("api/[controller]")]
     public class ToggleController : Controller
     {
-        private readonly ICreateService<ToggleResource> _createService;
-        private readonly IReadService<ToggleResource> _readService;
-        private readonly IUpdateService<ToggleResource> _updateService;
-        private readonly IDeleteService<ToggleResource> _deleteService;
+        private readonly ICreateService<ToggleRequest, ToggleResponse> _createService;
+        private readonly IReadService<ToggleRequest, ToggleResponse> _readService;
+        private readonly IUpdateService<ToggleRequest> _updateService;
+        private readonly IDeleteService<ToggleRequest> _deleteService;
 
-        public ToggleController(ICreateService<ToggleResource> createService,
-                                IReadService<ToggleResource> readService,
-                                IUpdateService<ToggleResource> updateService,
-                                IDeleteService<ToggleResource> deleteService)
+        public ToggleController(ICreateService<ToggleRequest, ToggleResponse> createService,
+                                IReadService<ToggleRequest, ToggleResponse> readService,
+                                IUpdateService<ToggleRequest> updateService,
+                                IDeleteService<ToggleRequest> deleteService)
         {
             _createService = createService;
             _readService = readService;
@@ -25,47 +26,47 @@ namespace ToggleApi.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ToggleResource> GetAll()
+        public IEnumerable<ToggleResponse> GetAll()
         {
-            return _readService.GetAll();
+            return _readService.GetAll(null);
         }
 
         [HttpGet("{id}", Name = "GetToggle")]
         public IActionResult GetById(long id)
         {
-            var toggle = _readService.Get(id);
+            var toggle = _readService.Get(new ToggleRequest() { Id = id });
             return new ObjectResult(toggle);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] ToggleResource toggle)
+        public IActionResult Create([FromBody] ToggleRequest request)
         {
-            if (toggle == null)
+            if (request == null)
             {
                 return BadRequest();
             }
 
-            var newResource = _createService.Create(toggle);
+            var response = _createService.Create(request);
 
-            return CreatedAtRoute("GetToggle", new { id = newResource.Id }, newResource);
+            return CreatedAtRoute("GetToggle", new { id = response.Id }, response);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(long id, [FromBody] ToggleResource toggle)
+        public IActionResult Update(long id, [FromBody] ToggleRequest request)
         {
-            if (toggle == null || toggle.Id != id)
+            if (request == null || request.Id != id)
             {
                 return BadRequest();
             }
 
-            _updateService.Update(toggle);
+            _updateService.Update(request);
             return new NoContentResult();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
-            _deleteService.Delete(new ToggleResource() { Id = id });
+            _deleteService.Delete(new ToggleRequest() { Id = id });
             return new NoContentResult();
         }
     }
