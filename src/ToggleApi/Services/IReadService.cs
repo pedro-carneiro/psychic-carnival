@@ -2,10 +2,10 @@ namespace ToggleApi.Services
 {
     using System.Collections.Generic;
 
-    public interface IReadService<T>
+    public interface IReadService<TRequest, TResponse>
     {
-        T Get(long id);
+        TResponse Get(TRequest request);
 
-        IEnumerable<T> GetAll();
+        IEnumerable<TResponse> GetAll(TRequest request);
     }
 }

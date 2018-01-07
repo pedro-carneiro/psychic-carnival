@@ -1,7 +1,7 @@
 namespace ToggleApi.Services
 {
-    public interface ICreateService<T>
+    public interface ICreateService<TRequest, TResponse>
     {
-        T Create(T resource);
+        TResponse Create(TRequest request);
     }
 }

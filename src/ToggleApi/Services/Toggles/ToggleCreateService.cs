@@ -2,10 +2,11 @@ namespace ToggleApi.Services.Toggles
 {
     using AutoMapper;
     using ToggleApi.Models.Entities;
-    using ToggleApi.Models.Resources;
+    using ToggleApi.Models.Requests;
+    using ToggleApi.Models.Responses;
     using ToggleApi.Services;
 
-    public class ToggleCreateService : ICreateService<ToggleResource>
+    public class ToggleCreateService : ICreateService<ToggleRequest, ToggleResponse>
     {
         private readonly ApiDbContext _context;
 
@@ -14,14 +15,14 @@ namespace ToggleApi.Services.Toggles
             _context = context;
         }
 
-        ToggleResource ICreateService<ToggleResource>.Create(ToggleResource resource)
+        ToggleResponse ICreateService<ToggleRequest, ToggleResponse>.Create(ToggleRequest request)
         {
-            var toggle = Mapper.Map<Toggle>(resource);
+            var toggle = Mapper.Map<Toggle>(request);
 
             _context.Toggles.Add(toggle);
             _context.SaveChanges();
 
-            return Mapper.Map<ToggleResource>(toggle);
+            return Mapper.Map<ToggleResponse>(toggle);
         }
     }
 }
