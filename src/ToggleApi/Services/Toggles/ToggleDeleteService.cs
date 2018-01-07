@@ -2,10 +2,10 @@ namespace ToggleApi.Services.Toggles
 {
     using ToggleApi.Exceptions;
     using ToggleApi.Models;
-    using ToggleApi.Models.Resources;
+    using ToggleApi.Models.Requests;
     using System.Linq;
 
-    public class ToggleDeleteService : IDeleteService<ToggleResource>
+    public class ToggleDeleteService : IDeleteService<ToggleRequest>
     {
         private readonly ApiDbContext _context;
 
@@ -14,9 +14,9 @@ namespace ToggleApi.Services.Toggles
             _context = context;
         }
 
-        void IDeleteService<ToggleResource>.Delete(ToggleResource resource)
+        void IDeleteService<ToggleRequest>.Delete(ToggleRequest request)
         {
-            var toggle = _context.Toggles.FirstOrDefault(t => t.Id == resource.Id);
+            var toggle = _context.Toggles.FirstOrDefault(t => t.Id == request.Id);
             if (toggle == null)
             {
                 throw new ResourceNotFoundException("Resource not found!");

@@ -2,6 +2,6 @@ namespace ToggleApi.Services
 {
     public interface IUpdateService<T>
     {
-        void Update(T resource);
+        void Update(T request);
     }
 }

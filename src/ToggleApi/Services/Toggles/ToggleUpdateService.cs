@@ -2,10 +2,10 @@ namespace ToggleApi.Services.Toggles
 {
     using ToggleApi.Exceptions;
     using ToggleApi.Models;
-    using ToggleApi.Models.Resources;
+    using ToggleApi.Models.Requests;
     using System.Linq;
 
-    public class ToggleUpdateService : IUpdateService<ToggleResource>
+    public class ToggleUpdateService : IUpdateService<ToggleRequest>
     {
         private readonly ApiDbContext _context;
 
@@ -14,16 +14,16 @@ namespace ToggleApi.Services.Toggles
             _context = context;
         }
 
-        void IUpdateService<ToggleResource>.Update(ToggleResource resource)
+        void IUpdateService<ToggleRequest>.Update(ToggleRequest request)
         {
-            var toggle = _context.Toggles.FirstOrDefault(t => t.Id == resource.Id);
+            var toggle = _context.Toggles.FirstOrDefault(t => t.Id == request.Id);
             if (toggle == null)
             {
                 throw new ResourceNotFoundException("Resource not found!");
             }
 
-            toggle.Name = resource.Name;
-            toggle.DefaultValue = resource.DefaultValue;
+            toggle.Name = request.Name;
+            toggle.DefaultValue = request.DefaultValue;
 
             _context.Toggles.Update(toggle);
             _context.SaveChanges();

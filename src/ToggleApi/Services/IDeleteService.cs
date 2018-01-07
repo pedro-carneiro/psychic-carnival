@@ -2,6 +2,6 @@ namespace ToggleApi.Services
 {
     public interface IDeleteService<T>
     {
-        void Delete(T resource);
+        void Delete(T request);
     }
 }
