@@ -1,9 +1,7 @@
 namespace ToggleApi
 {
     using Microsoft.AspNetCore.Http;
-    using Newtonsoft.Json;
     using ToggleApi.Exceptions;
-    using System;
     using System.Net;
     using System.Threading.Tasks;
 
@@ -22,20 +20,10 @@ namespace ToggleApi
             {
                 await next(context);
             }
-            catch (Exception e)
-            {
-                await HandleExceptionAsync(context, e);
-                throw;
-            }
-        }
-
-        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            if (exception is ResourceNotFoundException)
+            catch (ResourceNotFoundException e)
             {
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                await context.Response.WriteAsync("");
             }
-            return context.Response.WriteAsync("");
         }
-    }
 }
