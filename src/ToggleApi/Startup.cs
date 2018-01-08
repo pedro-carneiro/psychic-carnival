@@ -3,7 +3,8 @@ namespace ToggleApi
     using Microsoft.AspNetCore.Builder;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using ToggleApi.Models.Resources;
+    using ToggleApi.Models.Requests;
+    using ToggleApi.Models.Responses;
     using ToggleApi.Services;
     using ToggleApi.Services.Toggles;
 
@@ -14,10 +15,10 @@ namespace ToggleApi
             services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase("ToggleList"));
             services.AddMvc();
 
-            services.AddScoped(typeof(ICreateService<ToggleResource>), typeof(ToggleCreateService));
-            services.AddScoped(typeof(IReadService<ToggleResource>), typeof(ToggleReadService));
-            services.AddScoped(typeof(IUpdateService<ToggleResource>), typeof(ToggleUpdateService));
-            services.AddScoped(typeof(IDeleteService<ToggleResource>), typeof(ToggleDeleteService));
+            services.AddScoped(typeof(ICreateService<ToggleRequest, ToggleResponse>), typeof(ToggleCreateService));
+            services.AddScoped(typeof(IReadService<ToggleRequest, ToggleResponse>), typeof(ToggleReadService));
+            services.AddScoped(typeof(IUpdateService<ToggleRequest>), typeof(ToggleUpdateService));
+            services.AddScoped(typeof(IDeleteService<ToggleRequest>), typeof(ToggleDeleteService));
         }
 
         public void Configure(IApplicationBuilder app)
