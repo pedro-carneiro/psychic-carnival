@@ -1,8 +1,8 @@
 namespace ToggleApi.Services.Toggles
 {
-    using AutoMapper;
+    using ToggleApi.Converters;
     using ToggleApi.Exceptions;
-    using ToggleApi.Models;
+    using ToggleApi.Models.Entities;
     using ToggleApi.Models.Requests;
     using ToggleApi.Models.Responses;
     using System.Collections.Generic;
@@ -11,10 +11,13 @@ namespace ToggleApi.Services.Toggles
     public class ToggleReadService : IReadService<ToggleRequest, ToggleResponse>
     {
         private readonly ApiDbContext _context;
+        private readonly IConverter<Toggle, ToggleResponse> _toggleConverter;
 
-        public ToggleReadService(ApiDbContext context)
+        public ToggleReadService(ApiDbContext context,
+                                 IConverter<Toggle, ToggleResponse> toggleConverter)
         {
             _context = context;
+            _toggleConverter = toggleConverter;
         }
 
         ToggleResponse IReadService<ToggleRequest, ToggleResponse>.Get(ToggleRequest request)
@@ -25,13 +28,20 @@ namespace ToggleApi.Services.Toggles
                 throw new ResourceNotFoundException("Resource not found!");
             }
 
-            return Mapper.Map<ToggleResponse>(toggle);
+            return _toggleConverter.convert(toggle);
         }
 
         IEnumerable<ToggleResponse> IReadService<ToggleRequest, ToggleResponse>.GetAll(ToggleRequest request)
         {
+            List<ToggleResponse> responses = new List<ToggleResponse>();
+
             var toggles = _context.Toggles.ToList();
-            return Mapper.Map<IEnumerable<ToggleResponse>>(toggles);
+
+            foreach(var toggle in toggles)
+            {
+                responses.Add(_toggleConverter.convert(toggle));
+            }
+            return responses;
         }
     }
 }
