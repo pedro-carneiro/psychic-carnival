@@ -24,6 +24,9 @@ namespace ToggleApi
 
             services.AddScoped(typeof(IConverter<ToggleRequest, Toggle>), typeof(ToggleRequestConverter));
             services.AddScoped(typeof(IConverter<Toggle, ToggleResponse>), typeof(ToggleResponseConverter));
+
+            services.AddScoped(typeof(IConverter<AppOverrideRequest, AppOverride>), typeof(AppOverrideRequestConverter));
+            services.AddScoped(typeof(IConverter<AppOverride, AppOverrideResponse>), typeof(AppOverrideResponseConverter));
         }
 
         public void Configure(IApplicationBuilder app)
