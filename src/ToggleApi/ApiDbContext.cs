@@ -11,5 +11,6 @@ namespace ToggleApi
         }
 
         public DbSet<Toggle> Toggles { get; set; }
+        public DbSet<AppOverride> AppOverrides { get; set; }
     }
 }
