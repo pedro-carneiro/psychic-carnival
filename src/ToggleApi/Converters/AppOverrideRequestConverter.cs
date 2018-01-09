@@ -14,6 +14,7 @@ namespace ToggleApi.Converters
             return new AppOverride()
             {
                 ToggleId = a.ToggleId,
+                ToggleName = a.ToggleName,
                 Application = a.Application,
                 Value = a.Value
             };
