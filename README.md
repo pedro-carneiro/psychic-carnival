@@ -14,6 +14,10 @@ a toggle is required to have a different value than the default, but only for a
 specific application. It is comprised of an application reference, a toggle
 identifier and a value for the toggle.
 
+You can also make use of
+[this](https://www.getpostman.com/collections/44868b83806a133b88ef)
+[Postman](https://www.getpostman.com/) collection to interact with the service.
+
 ### Toggles
 
 #### Get all toggles
