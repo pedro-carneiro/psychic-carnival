@@ -226,3 +226,13 @@ Toggle API is a .NET Core 2.0 application.
 - Execute the tests using `dotnet test`
 - Run the application locally `dotnet run --project src/ToggleApi/ToggleApi.csproj`
 - Debug using your .NET IDE of choice
+
+## Future Improvements
+
+- Implement a basic authentication and authorisation mechanism, to ensure
+service users are recognised and have permissions to modify resources (for
+instance, using [JSON Web Tokens](https://jwt.io/)).
+- Implement a push mechanism, so that toggle state consumers (the applications)
+can evolve from the polling nature of the current _status quo_. This could be
+achieved by publishing an event to a messaging service of choice (example:
+RabbitMQ), which applications would then consume.
